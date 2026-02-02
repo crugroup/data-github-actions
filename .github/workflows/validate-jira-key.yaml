@@ -8,7 +8,12 @@ on:
         required: true
         type: string
         default: "DE"
-
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - 'develop'
 
 jobs:
   validate-jira-key:
