@@ -12,7 +12,4 @@ jobs:
       - uses: actions/checkout@v6
       - uses: j178/prek-action@v1
         with:
-          extra-args: > --all-files
-            check-merge-conflict
-            trailing-whitespace
-            end-of-file-fixer
+          extra-args: "--all-files check-merge-conflict trailing-whitespace end-of-file-fixer"
