@@ -1,0 +1,18 @@
+name: Prek checks
+on:
+  - push:
+      branches:
+        - 'develop'
+        - 'feature/**'
+
+jobs:
+  prek:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: j178/prek-action@v1
+        with:
+          extra-args: > --all-files
+            check-merge-conflict
+            trailing-whitespace
+            end-of-file-fixer
