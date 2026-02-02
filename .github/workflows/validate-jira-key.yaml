@@ -1,0 +1,42 @@
+name: Validate Jira Key
+
+on:
+  workflow_call:
+    inputs:
+      project_keys:
+        description: "Comma-separated Jira project keys, e.g. ABC,XYZ"
+        required: true
+        type: string
+        default: "DE"
+
+
+jobs:
+  validate-jira-key:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+    steps:
+      - name: Check Jira Key in PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prTitle = context.payload.pull_request.title;
+            const prBody = context.payload.pull_request.body || '';
+            const branchName = context.payload.pull_request.head.ref;
+
+            const keysRaw = `${{ inputs.project_keys }}`;
+            const keys = keysRaw.split(',').map(k => k.trim()).filter(Boolean);
+
+            // Build regex like: \b(?:ABC|XYZ)-\d+\b
+            // If require_uppercase=true, only accept uppercase keys.
+            const keyPattern = keys.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+            const prefix = '(?:' + keyPattern + ')';
+            const jiraKeyRegex = new RegExp(`\\b${prefix}-\\d+\\b`);
+
+            if (!jiraKeyRegex.test(prTitle)) {
+              core.setFailed(`Jira ticket key not found in the PR title`);
+              return;
+            }
+
+            core.info('Jira ticket key found in the PR title');
