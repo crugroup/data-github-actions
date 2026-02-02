@@ -1,9 +1,9 @@
 name: Prek checks
 on:
-  - push:
-      branches:
-        - 'develop'
-        - 'feature/**'
+  push:
+    branches:
+      - 'develop'
+      - 'feature/**'
 
 jobs:
   prek:
