@@ -9,7 +9,6 @@ on:
       - reopened
     branches:
       - 'develop'
-  workflow_call:
 
 jobs:
   validate-jira-key:
