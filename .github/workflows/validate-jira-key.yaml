@@ -4,12 +4,12 @@ on:
   pull_request_target:
     types:
       - opened
-      - edited
       - synchronize
+      - edited
       - reopened
     branches:
       - 'develop'
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   validate-jira-key:
